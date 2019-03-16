@@ -3,17 +3,104 @@ body {
     margin: 1em;
 }
 
-thead th {
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10ex;
+    width: 100%;
+    overflow: hidden;
+    background: #dddddd;
+    z-index: 100;
+}
+
+main {
+    position: relative;
+    top: 10ex;
+    left: 0;
+}
+
+/**
+ * Table style
+ */
+
+.hxl-table {
+    overflow: auto;
+    width: 100%;
+}
+
+.hxl-table thead th {
     text-align: left;
 }
 
-.card .header, .card .hashtag {
-    text-align: right;
+.hxl-table th, .hxl-table td {
+    vertical-align: text-top;
 }
 
-tr.hashtags th, .hashtag {
+.hxl-table .hashtags th {
     font-weight: normal;
     font-size: 80%;
     color: #aaaaaa;
 }
+
+.hxl-table tbody tr:nth-child(odd) {
+    background-color: #eeffee;
+}
+
+.hxl-table th, .hxl-table td {
+    padding: 1ex;
+}
+
+/**
+ * Cards style
+ */
+
+.hxl-cards {
+    position: relative;
+}
+
+.hxl-card {
+    overflow: auto;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hxl-card .field {
+    margin: 2ex 0;
+}
+
+hxl-card .field:nth-child(odd) {
+    background-color: #eeffee;
+}
+
+.hxl-card .label {
+    font-size: 80%;
+}
+
+.hxl-card .hashtag {
+    color: #aaaaaa;
+    font-family: Courier New, fixed;
+    margin-left: 1ex;
+}
+
+@media screen and (min-device-width: 80em) {
+    .hxl-card .label {
+        font-size: 100%;
+        float: left;
+        clear: left;
+        width: 20em;
+    }
+
+    .hxl-card .value {
+        margin-left: 21em;
+    }
+
+    // for top/bottom margin
+    .hxl-card .value:after {
+        content: "\a0";
+    }
+}
+
 
