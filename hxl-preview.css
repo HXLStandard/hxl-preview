@@ -1,0 +1,19 @@
+body {
+    font-family: Helvetica, Arial, sanserif;
+    margin: 1em;
+}
+
+thead th {
+    text-align: left;
+}
+
+.card .header, .card .hashtag {
+    text-align: right;
+}
+
+tr.hashtags th, .hashtag {
+    font-weight: normal;
+    font-size: 80%;
+    color: #aaaaaa;
+}
+

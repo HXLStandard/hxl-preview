@@ -15,33 +15,73 @@ hxl_preview.getParams = function () {
 };
 
 /**
+ * Draw the data as cards
+ */
+hxl_preview.drawCards = function (dataset) {
+    var containerNode = document.getElementById("preview");
+
+    dataset.rows.forEach((row) => {
+        var sectionNode = document.createElement("section");
+        sectionNode.className = "card";
+
+        dataset.columns.forEach((column, index) => {
+            var rowNode = document.createElement("tr");
+
+            var headerNode = document.createElement("th");
+
+            var node = document.createElement("div");
+            node.className = "header";
+            node.appendChild(document.createTextNode(column.header));
+            headerNode.appendChild(node);
+
+            var node = document.createElement("div");
+            node.className = "hashtag";
+            node.appendChild(document.createTextNode(column.displayTag));
+            headerNode.appendChild(node);
+            
+            rowNode.appendChild(headerNode);
+
+            var valueNode = document.createElement("td");
+            valueNode.appendChild(document.createTextNode(row.values[index]));
+            rowNode.appendChild(valueNode);
+
+            sectionNode.appendChild(rowNode);
+        });
+        
+        containerNode.appendChild(sectionNode);
+    });
+};
+
+/**
  * Draw the data table
  */
-hxl_preview.draw = function (dataset) {
+hxl_preview.drawTable = function (dataset) {
     var containerNode = document.getElementById("preview");
 
     var tableNode = document.createElement("table");
+    tableNode.className = "hxl";
     containerNode.appendChild(tableNode);
     
     var theadNode = document.createElement("thead");
     tableNode.appendChild(theadNode);
     
-    var hxlHeadersRowNode = document.createElement("tr");
-    var hxlTagsRowNode = document.createElement("tr");
-    theadNode.appendChild(hxlHeadersRowNode);
-    theadNode.appendChild(hxlTagsRowNode);
-    
+    var headerRowNode = document.createElement("tr");
+    headerRowNode.className = "headers";
     dataset.headers.forEach((header) => {
         var thNode = document.createElement("th");
         thNode.appendChild(document.createTextNode(header));
-        hxlHeadersRowNode.appendChild(thNode);
+        headerRowNode.appendChild(thNode);
     });
+    theadNode.appendChild(headerRowNode);
 
+    var hashtagsRowNode = document.createElement("tr");
+    hashtagsRowNode.className = "hashtags";
     dataset.displayTags.forEach((tagspec) => {
         var thNode = document.createElement("th");
         thNode.appendChild(document.createTextNode(tagspec));
-        hxlTagsRowNode.appendChild(thNode);
+        hashtagsRowNode.appendChild(thNode);
     });
+    theadNode.appendChild(hashtagsRowNode);
 
     var tbodyNode = document.createElement("tbody");
     tableNode.appendChild(tbodyNode);
@@ -64,7 +104,11 @@ hxl_preview.load = function () {
     var params = hxl_preview.getParams();
     if (params.url) {
         hxl.proxy(params.url, (dataset) => {
-            hxl_preview.draw(dataset);
+            if (params.style == "cards") {
+                hxl_preview.drawCards(dataset);
+            } else {
+                hxl_preview.drawTable(dataset);
+            }
         });
     }
 };
