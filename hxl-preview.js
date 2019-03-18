@@ -1,6 +1,8 @@
 hxl_preview = {
+    dataset: undefined,
     rowIndex: 0,
-    totalRows: -1
+    totalRows: -1,
+    localParams: {}
 };
 
 /**
@@ -48,7 +50,7 @@ hxl_preview.makeText = function(value, column) {
 /**
  * Draw the data as cards
  */
-hxl_preview.drawCards = function (dataset) {
+hxl_preview.drawCards = function (dataset, containerNode) {
     var containerNode = document.getElementById("preview");
 
     var cardsNode = document.createElement("div");
@@ -98,8 +100,7 @@ hxl_preview.drawCards = function (dataset) {
 /**
  * Draw the data table
  */
-hxl_preview.drawTable = function (dataset) {
-    var containerNode = document.getElementById("preview");
+hxl_preview.drawTable = function (dataset, containerNode) {
 
     var tableNode = document.createElement("table");
     tableNode.className = "hxl-table";
@@ -141,37 +142,89 @@ hxl_preview.drawTable = function (dataset) {
 };
 
 /**
- * Onload function
+ * Update local config
  */
-hxl_preview.load = function () {
+hxl_preview.readLocalParams = function () {
 
-    var localParams = {
+    console.log("read local");
+
+    hxl_preview.localParams = {
         style: "table"
     };
     
     if (location.hash) {
-        localParams = hxl_preview.getParams(location.hash.substr(1));
+        hxl_preview.localParams = hxl_preview.getParams(location.hash.substr(1));
+    }
+};
 
-        // Convert to after the #
-        if (localParams.row !== undefined) {
-            hxl_preview.rowIndex = Number.parseInt(localParams.row, 10);
-            if (Number.isNaN(hxl_preview.rowIndex)) {
-                hxl_preview.rowIndex = 0;
-            }
+/**
+ * Redraw data
+ */
+hxl_preview.redraw = function () {
+    var containerNode = document.getElementById("preview");
+    containerNode.innerHTML = "";
+
+    hxl_preview.readLocalParams();
+
+    if (hxl_preview.localParams.row !== undefined) {
+        hxl_preview.rowIndex = Number.parseInt(localParams.row, 10);
+        if (Number.isNaN(hxl_preview.rowIndex)) {
+            hxl_preview.rowIndex = 0;
         }
     }
-    
+    if (hxl_preview.localParams.style == "cards") {
+        hxl_preview.drawCards(hxl_preview.dataset, containerNode);
+    } else {
+        hxl_preview.drawTable(hxl_preview.dataset, containerNode);
+    }
+};
+
+/**
+ *
+ */
+hxl_preview.updateLocalParams = function () {
+    var hash = "";
+    var isFirst = true;
+    for (var key in hxl_preview.localParams) {
+        if (isFirst) {
+            hash = "#";
+            isFirst = false;
+        } else {
+            hash += "&";
+        }
+        hash += encodeURIComponent(key);
+        hash += "=";
+        hash += encodeURIComponent(hxl_preview.localParams[key]);
+    }
+    console.log(hxl_preview.localParams);
+    console.log(hash);
+    location.hash = hash;
+};
+
+/**
+ * Onload function
+ */
+hxl_preview.load = function () {
+
     var params = hxl_preview.getParams(location.search.substr(1));
 
     if (params.url) {
         hxl.proxy(params.url, (dataset) => {
-            if (localParams.style == "cards") {
-                hxl_preview.drawCards(dataset);
-            } else {
-                hxl_preview.drawTable(dataset);
-            }
+            hxl_preview.dataset = dataset;
+            window.onhashchange = hxl_preview.redraw;
+            hxl_preview.redraw();
         });
     }
+
+    document.getElementById("style-table").onclick = () => {
+        hxl_preview.localParams.style = "table";
+        hxl_preview.updateLocalParams();
+    };
+
+    document.getElementById("style-cards").onclick = () => {
+        hxl_preview.localParams.style = "cards";
+        hxl_preview.updateLocalParams();
+    };
 
 };
 
