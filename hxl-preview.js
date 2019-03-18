@@ -37,9 +37,10 @@ hxl_preview.makeText = function(value, column) {
         }
     }
 
-    if ((column.tag == "#country" || column.tag == "#sector" || column.tag == "#subsector" || column.tag == "#org") && column.attributes.indexOf("code") == -1) {
+    if ((column.tag == "#country" || column.tag == "#sector" || column.tag == "#subsector" || column.tag == "#org") && column.attributes.indexOf("code") == -1 && column.attributes.indexOf("type") == -1) {
         var linkNode = document.createElement("a");
         linkNode.href = "https://data.humdata.org/search?q=" + encodeURIComponent(value);
+        linkNode.target = "_blank";
         linkNode.appendChild(document.createTextNode(value));
         return linkNode;
     }
@@ -60,9 +61,42 @@ hxl_preview.drawCards = function (dataset, containerNode) {
     dataset.rows.forEach((row, index) => {
         var cardNode = document.createElement("section");
         cardNode.className = "hxl-card";
-        if (index != hxl_preview.rowIndex) {
-            cardNode.hidden = true;
+        if (index == hxl_preview.rowIndex) {
+            cardNode.className = "hxl-card current";
         }
+
+        var cardnavNode = document.createElement("p");
+        cardnavNode.className = "cardnav";
+
+        var prevNode = document.createElement("a");
+        prevNode.appendChild(document.createTextNode("prev"));
+        if (index > 0) {
+            prevNode.className = "prev active";
+            prevNode.addEventListener("click", () => {
+                hxl_preview.moveToCard(index-1);
+            });
+        } else {
+            prevNode.className = "prev inactive";
+        }
+        cardnavNode.appendChild(prevNode);
+
+        var counterNode = document.createElement("a");
+        counterNode.appendChild(document.createTextNode((index + 1) + "/" + dataset.rows.length));
+        cardnavNode.appendChild(counterNode);
+
+        var nextNode = document.createElement("a");
+        nextNode.appendChild(document.createTextNode("next"));
+        if (index < dataset.rows.length) {
+            nextNode.className = "next active";
+            nextNode.addEventListener("click", () => {
+                hxl_preview.moveToCard(index+1);
+            });
+        } else {
+            nextNode.className = "next inactive";
+        }
+        cardnavNode.appendChild(nextNode);
+
+        cardNode.appendChild(cardnavNode);
 
         hxl_preview.totalCards = index + 1;
 
@@ -95,6 +129,11 @@ hxl_preview.drawCards = function (dataset, containerNode) {
         
         cardsNode.appendChild(cardNode);
     });
+};
+
+hxl_preview.moveToCard = function(card) {
+    hxl_preview.localParams.row = card;
+    hxl_preview.updateLocalParams();
 };
 
 /**
@@ -148,6 +187,10 @@ hxl_preview.drawTable = function (dataset, containerNode) {
             rowNode.appendChild(cellNode);
         });
         tbodyNode.appendChild(rowNode)
+        if (index == hxl_preview.localParams.row) {
+            rowNode.scrollIntoView();
+            rowNode.className = rowNode.className + " selected";
+        }
     });
 };
 
@@ -155,8 +198,6 @@ hxl_preview.drawTable = function (dataset, containerNode) {
  * Update local config
  */
 hxl_preview.readLocalParams = function () {
-
-    console.log("read local");
 
     hxl_preview.localParams = {
         style: "table"
@@ -177,7 +218,7 @@ hxl_preview.redraw = function () {
     hxl_preview.readLocalParams();
 
     if (hxl_preview.localParams.row !== undefined) {
-        hxl_preview.rowIndex = Number.parseInt(localParams.row, 10);
+        hxl_preview.rowIndex = Number.parseInt(hxl_preview.localParams.row, 10);
         if (Number.isNaN(hxl_preview.rowIndex)) {
             hxl_preview.rowIndex = 0;
         }
@@ -206,8 +247,6 @@ hxl_preview.updateLocalParams = function () {
         hash += "=";
         hash += encodeURIComponent(hxl_preview.localParams[key]);
     }
-    console.log(hxl_preview.localParams);
-    console.log(hash);
     location.hash = hash;
 };
 

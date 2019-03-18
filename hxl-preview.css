@@ -66,9 +66,14 @@ main {
     padding: 1ex;
 }
 
+.hxl-table tbody tr.selected {
+    background: #ffffaa;
+}
+
 .hxl-table .row-number {
     font-size: 80%;
     color: #aaaaaa;
+    background: white;
 }
 
 /**
@@ -80,11 +85,36 @@ main {
 }
 
 .hxl-card {
-    overflow: auto;
-    width: 100%;
+    display: none;
+}
+
+.hxl-card.current {
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
+    overflow: auto;
+    width: 100%;
+}
+
+.hxl-card .cardnav {
+    margin-bottom: 4ex;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.hxl-card .cardnav a, hxl-card .cardnav span {
+    display: inline-block;
+    font-size: 80%;
+}
+
+.hxl-card .cardnav a.inactive {
+    color: #aaaaaa;
+}
+
+.hxl-card .cardnav a.active {
+    color: blue;
 }
 
 .hxl-card .field {
