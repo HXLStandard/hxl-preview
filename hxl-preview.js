@@ -111,6 +111,7 @@ hxl_preview.drawTable = function (dataset, containerNode) {
     
     var headerRowNode = document.createElement("tr");
     headerRowNode.className = "headers";
+    headerRowNode.appendChild(document.createElement("th"));
     dataset.headers.forEach((header) => {
         var thNode = document.createElement("th");
         thNode.appendChild(document.createTextNode(header));
@@ -120,6 +121,7 @@ hxl_preview.drawTable = function (dataset, containerNode) {
 
     var hashtagsRowNode = document.createElement("tr");
     hashtagsRowNode.className = "hashtags";
+    hashtagsRowNode.appendChild(document.createElement("th"));
     dataset.displayTags.forEach((tagspec) => {
         var thNode = document.createElement("th");
         thNode.appendChild(document.createTextNode(tagspec));
@@ -130,8 +132,16 @@ hxl_preview.drawTable = function (dataset, containerNode) {
     var tbodyNode = document.createElement("tbody");
     tableNode.appendChild(tbodyNode);
 
-    dataset.rows.forEach((row) => {
+    dataset.rows.forEach((row, index) => {
         var rowNode = document.createElement("tr");
+
+        // Row number
+        var numNode = document.createElement("td");
+        numNode.className = "row-number";
+        numNode.appendChild(document.createTextNode(index + 1));
+        rowNode.appendChild(numNode);
+
+        // Values
         row.values.forEach((value, index) => {
             var cellNode = document.createElement("td");
             cellNode.appendChild(hxl_preview.makeText(row.values[index], row.columns[index]));

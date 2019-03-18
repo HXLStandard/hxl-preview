@@ -66,6 +66,11 @@ main {
     padding: 1ex;
 }
 
+.hxl-table .row-number {
+    font-size: 80%;
+    color: #aaaaaa;
+}
+
 /**
  * Cards style
  */
