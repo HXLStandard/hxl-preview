@@ -268,6 +268,9 @@ hxl_preview.load = function () {
     var params = hxl_preview.getParams(location.search.substr(1));
 
     if (params.url) {
+        var loadingNode = document.getElementById("source-url");
+        loadingNode.href = params.url;
+        loadingNode.appendChild(document.createTextNode(params.url));
         hxl.proxy(params.url, (dataset) => {
             hxl_preview.dataset = dataset;
             window.onhashchange = hxl_preview.redraw;
