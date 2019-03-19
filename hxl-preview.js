@@ -101,6 +101,16 @@ hxl_preview.drawCards = function (dataset, containerNode) {
         hxl_preview.totalCards = index + 1;
 
         dataset.columns.forEach((column, index) => {
+
+            // replace null values with an nbsp
+            function nonull (s) {
+                if (s) {
+                    return s;
+                } else {
+                    return "\u00a0";
+                }
+            }
+
             var fieldNode = document.createElement("div");
             fieldNode.className = "field";
 
@@ -109,19 +119,19 @@ hxl_preview.drawCards = function (dataset, containerNode) {
 
             var node = document.createElement("span");
             node.className = "header";
-            node.appendChild(document.createTextNode(column.header));
+            node.appendChild(document.createTextNode(nonull(column.header)));
             labelNode.appendChild(node);
 
             var node = document.createElement("span");
             node.className = "hashtag";
-            node.appendChild(document.createTextNode(column.displayTag));
+            node.appendChild(document.createTextNode(nonull(column.displayTag)));
             labelNode.appendChild(node);
             
             fieldNode.appendChild(labelNode);
 
             var valueNode = document.createElement("div");
             valueNode.className = "value";
-            valueNode.appendChild(hxl_preview.makeText(row.values[index], row.columns[index]))
+            valueNode.appendChild(nonull(hxl_preview.makeText(row.values[index], row.columns[index])));
             fieldNode.appendChild(valueNode);
 
             cardNode.appendChild(fieldNode);
