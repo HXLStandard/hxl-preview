@@ -137,7 +137,7 @@ hxl-card .field:nth-child(odd) {
 
 @media screen and (min-device-width: 80em) {
     .hxl-card .field {
-        padding: .5ex 0;
+        padding: 1ex 0;
         margin: 0;
         clear: both;
         overflow: auto;
@@ -150,16 +150,15 @@ hxl-card .field:nth-child(odd) {
     .hxl-card .label {
         display: inline-block;
         float: left;
-        font-size: 100%;
         width: 20em;
     }
 
     .hxl-card .label .header {
+        display: block;
         font-weight: bold;
     }
 
     .hxl-card .label .hashtag {
-        font-size: 80%;
         display: block;
         margin-left: 0;
     }
