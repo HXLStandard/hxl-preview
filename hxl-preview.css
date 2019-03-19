@@ -150,7 +150,7 @@ hxl-card .field:nth-child(odd) {
     .hxl-card .label {
         display: inline-block;
         float: left;
-        width: 20em;
+        width: 15em;
     }
 
     .hxl-card .label .header {
