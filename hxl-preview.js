@@ -73,7 +73,11 @@ hxl_preview.drawCards = function (dataset, containerNode) {
         if (index > 0) {
             prevNode.className = "prev active";
             prevNode.addEventListener("click", () => {
-                hxl_preview.moveToCard(index-1);
+                if (cardNode.previousElementSibling) {
+                    hxl_preview.rowIndex--;
+                    cardNode.className = "hxl-card";
+                    cardNode.previousElementSibling.className = "hxl-card current";
+                }
             });
         } else {
             prevNode.className = "prev inactive";
@@ -89,7 +93,11 @@ hxl_preview.drawCards = function (dataset, containerNode) {
         if (index < dataset.rows.length) {
             nextNode.className = "next active";
             nextNode.addEventListener("click", () => {
-                hxl_preview.moveToCard(index+1);
+                if (cardNode.nextElementSibling) {
+                    hxl_preview.rowIndex++;
+                    cardNode.className = "hxl-card";
+                    cardNode.nextElementSibling.className = "hxl-card current";
+                }
             });
         } else {
             nextNode.className = "next inactive";
@@ -139,11 +147,6 @@ hxl_preview.drawCards = function (dataset, containerNode) {
         
         cardsNode.appendChild(cardNode);
     });
-};
-
-hxl_preview.moveToCard = function(card) {
-    hxl_preview.localParams.row = card;
-    hxl_preview.updateLocalParams();
 };
 
 /**
