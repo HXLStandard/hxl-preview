@@ -78,7 +78,7 @@ hxl_preview.drawCards = function (dataset, containerNode) {
                     hxl_preview.rowIndex--;
                     cardNode.className = "hxl-card";
                     cardNode.previousElementSibling.className = "hxl-card current";
-                    hxl_preview.updateLocalParams();
+                    hxl_preview.updateLocalParams(false);
                 }
             });
         } else {
@@ -99,7 +99,7 @@ hxl_preview.drawCards = function (dataset, containerNode) {
                     hxl_preview.rowIndex++;
                     cardNode.className = "hxl-card";
                     cardNode.nextElementSibling.className = "hxl-card current";
-                    hxl_preview.updateLocalParams();
+                    hxl_preview.updateLocalParams(false);
                 }
             });
         } else {
@@ -249,7 +249,7 @@ hxl_preview.redraw = function () {
 /**
  *
  */
-hxl_preview.updateLocalParams = function () {
+hxl_preview.updateLocalParams = function (forceRedraw) {
     var hash = "";
     var isFirst = true;
 
@@ -268,8 +268,12 @@ hxl_preview.updateLocalParams = function () {
         hash += "=";
         hash += encodeURIComponent(hxl_preview.localParams[key]);
     }
+
+    // Do we want to force a redraw?
+    if (!forceRedraw) {
+        hxl_preview.skipHash = true;
+    }
     
-    hxl_preview.skipHash = true; // don't force a redraw with this hash change
     location.hash = hash;
 };
 
@@ -299,12 +303,12 @@ hxl_preview.load = function () {
 
     document.getElementById("style-table").onclick = () => {
         hxl_preview.localParams.style = "table";
-        hxl_preview.updateLocalParams();
+        hxl_preview.updateLocalParams(true);
     };
 
     document.getElementById("style-cards").onclick = () => {
         hxl_preview.localParams.style = "cards";
-        hxl_preview.updateLocalParams();
+        hxl_preview.updateLocalParams(true);
     };
 
 };
