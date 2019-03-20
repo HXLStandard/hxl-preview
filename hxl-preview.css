@@ -29,6 +29,10 @@ header .tools a {
     padding: 0 1em;
 }
 
+header .tools a.selected {
+    font-weight: bold;
+}
+
 main {
     position: relative;
     top: 10ex;

@@ -53,6 +53,11 @@ hxl_preview.makeText = function(value, column) {
  * Draw the data as cards
  */
 hxl_preview.drawCards = function (dataset, containerNode) {
+
+    // change toolbar
+    document.getElementById("style-table").className = "";
+    document.getElementById("style-cards").className = "selected";
+
     var containerNode = document.getElementById("preview");
 
     var cardsNode = document.createElement("div");
@@ -156,6 +161,10 @@ hxl_preview.drawCards = function (dataset, containerNode) {
  * Draw the data table
  */
 hxl_preview.drawTable = function (dataset, containerNode) {
+
+    // change toolbar
+    document.getElementById("style-table").className = "selected";
+    document.getElementById("style-cards").className = "";
 
     var tableNode = document.createElement("table");
     tableNode.className = "hxl-table";
