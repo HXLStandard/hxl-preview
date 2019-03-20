@@ -2,7 +2,8 @@ hxl_preview = {
     dataset: undefined,
     rowIndex: 0,
     totalRows: -1,
-    localParams: {}
+    localParams: {},
+    skipHash: false
 };
 
 /**
@@ -77,6 +78,7 @@ hxl_preview.drawCards = function (dataset, containerNode) {
                     hxl_preview.rowIndex--;
                     cardNode.className = "hxl-card";
                     cardNode.previousElementSibling.className = "hxl-card current";
+                    hxl_preview.updateLocalParams();
                 }
             });
         } else {
@@ -97,6 +99,7 @@ hxl_preview.drawCards = function (dataset, containerNode) {
                     hxl_preview.rowIndex++;
                     cardNode.className = "hxl-card";
                     cardNode.nextElementSibling.className = "hxl-card current";
+                    hxl_preview.updateLocalParams();
                 }
             });
         } else {
@@ -249,6 +252,11 @@ hxl_preview.redraw = function () {
 hxl_preview.updateLocalParams = function () {
     var hash = "";
     var isFirst = true;
+
+    // Copy operational variables
+    hxl_preview.localParams.row = hxl_preview.rowIndex;
+
+    // Construct the hash
     for (var key in hxl_preview.localParams) {
         if (isFirst) {
             hash = "#";
@@ -260,6 +268,8 @@ hxl_preview.updateLocalParams = function () {
         hash += "=";
         hash += encodeURIComponent(hxl_preview.localParams[key]);
     }
+    
+    hxl_preview.skipHash = true; // don't force a redraw with this hash change
     location.hash = hash;
 };
 
@@ -276,7 +286,13 @@ hxl_preview.load = function () {
         loadingNode.appendChild(document.createTextNode(params.url));
         hxl.proxy(params.url, (dataset) => {
             hxl_preview.dataset = dataset;
-            window.onhashchange = hxl_preview.redraw;
+            window.onhashchange = function () {
+                if (hxl_preview.skipHash) {
+                    hxl_preview.skipHash = false;
+                } else {
+                    hxl_preview.redraw();
+                }
+            };
             hxl_preview.redraw();
         });
     }
