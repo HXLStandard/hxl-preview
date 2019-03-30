@@ -16,7 +16,14 @@
     </header>
     <main>
       <section id="preview">
-        <p>Loading data from <a id="source-url"></a>…</p>
+        <p id="loading" class="hidden">Loading data from <a id="source-url"></a>…</p>
+        <form id="choose" target="">
+          <label>
+            URL
+            <input name="url" type="url" placeholder="Link to HXL dataset" />
+          </label>
+          <button type="submit">Open</button>
+        </form>
       </section>
     </main>
   </body>

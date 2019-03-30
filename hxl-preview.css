@@ -39,6 +39,19 @@ main {
     left: 0;
 }
 
+.hidden {
+    display: none;
+}
+
+/**
+ * Chooser form
+ */
+
+#choose input {
+    min-width: 20em;
+    width: 80%;
+}
+
 /**
  * Table style
  */

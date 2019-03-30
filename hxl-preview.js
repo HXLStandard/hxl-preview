@@ -294,9 +294,13 @@ hxl_preview.load = function () {
     var params = hxl_preview.getParams(location.search.substr(1));
 
     if (params.url) {
-        var loadingNode = document.getElementById("source-url");
-        loadingNode.href = params.url;
-        loadingNode.appendChild(document.createTextNode(params.url));
+        var chooseNode = document.getElementById("choose");
+        var sourceNode = document.getElementById("source-url");
+        var loadingNode = document.getElementById("loading");
+        chooseNode.className = "hidden";
+        loadingNode.className = "";
+        sourceNode.href = params.url;
+        sourceNode.appendChild(document.createTextNode(params.url));
         hxl.proxy(params.url, (dataset) => {
             hxl_preview.dataset = dataset;
             window.onhashchange = function () {
