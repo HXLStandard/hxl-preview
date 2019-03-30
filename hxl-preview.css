@@ -35,9 +35,12 @@ header .tools a.selected {
 }
 
 main {
-    position: relative;
-    top: 10ex;
+    position: fixed;
+    top: 5ex;
+    bottom: 0;
     left: 0;
+    right: 0;
+    overflow: scroll;
 }
 
 .hidden {
