@@ -1,17 +1,18 @@
 body {
     font-family: Helvetica, Arial, sanserif;
-    margin: 1em;
+    font-size: 12px;
 }
 
 header {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     height: 5ex;
-    width: 100%;
     overflow: hidden;
     background: #dddddd;
     z-index: 100;
+    padding: 0 1em;
 }
 
 header h1 {
@@ -63,12 +64,13 @@ main {
 .hxl-table {
     overflow: auto;
     width: 100%;
+    border-collapse: collapse;
 }
 
 .hxl-table thead {
     position: sticky;
     top: 0ex;
-    background: white;
+    background: #ffddff;
     z-index: 200;
 }
 
@@ -77,17 +79,17 @@ main {
 }
 
 .hxl-table th, .hxl-table td {
-    vertical-align: text-top;
+    vertical-align: middle;
 }
 
 .hxl-table .hashtags th {
     font-weight: normal;
-    font-size: 80%;
-    color: #aaaaaa;
+    color: #333333;
+    size: 83.3333%;
 }
 
 .hxl-table tbody tr:nth-child(odd) {
-    background-color: #eeffee;
+    background-color: #ddffdd;
 }
 
 .hxl-table th, .hxl-table td {
@@ -101,7 +103,7 @@ main {
 .hxl-table .row-number {
     font-size: 80%;
     color: #aaaaaa;
-    background: white;
+    /*background: white;*/
 }
 
 /**
@@ -150,7 +152,7 @@ main {
 }
 
 hxl-card .field:nth-child(odd) {
-    background-color: #eeffee;
+    background-color: #ddffdd;
 }
 
 .hxl-card .label {
@@ -172,7 +174,7 @@ hxl-card .field:nth-child(odd) {
     }
 
     .hxl-card .field:nth-child(even) {
-        background-color: #eeffee;
+        background-color: #ddffdd;
     }
 
     .hxl-card .label {
