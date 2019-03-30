@@ -7,7 +7,7 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    height: 10ex;
+    height: 5ex;
     width: 100%;
     overflow: hidden;
     background: #dddddd;
@@ -16,6 +16,7 @@ header {
 
 header h1 {
     float: left;
+    font-size: 100%;
 }
 
 header .tools {
