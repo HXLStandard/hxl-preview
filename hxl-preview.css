@@ -65,6 +65,13 @@ main {
     width: 100%;
 }
 
+.hxl-table thead {
+    position: sticky;
+    top: 0ex;
+    background: white;
+    z-index: 200;
+}
+
 .hxl-table thead th {
     text-align: left;
 }
