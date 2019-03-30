@@ -85,6 +85,7 @@ hxl_preview.drawCards = function (dataset, containerNode) {
                     cardNode.previousElementSibling.className = "hxl-card current";
                     hxl_preview.updateLocalParams(false);
                 }
+                return false;
             });
         } else {
             prevNode.className = "prev inactive";
@@ -106,6 +107,7 @@ hxl_preview.drawCards = function (dataset, containerNode) {
                     cardNode.nextElementSibling.className = "hxl-card current";
                     hxl_preview.updateLocalParams(false);
                 }
+                return false;
             });
         } else {
             nextNode.className = "next inactive";
@@ -128,8 +130,12 @@ hxl_preview.drawCards = function (dataset, containerNode) {
             }
 
             var fieldNode = document.createElement("div");
-            fieldNode.className = "field";
-
+            if (!row.values[index]) {
+                fieldNode.className = "field empty";
+            } else {
+                fieldNode.className = "field";
+            }
+            
             var labelNode = document.createElement("div");
             labelNode.className = "label";
 
