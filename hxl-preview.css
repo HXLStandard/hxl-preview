@@ -69,7 +69,7 @@ main {
 
 .hxl-table thead {
     position: sticky;
-    top: 0ex;
+    top: 0;
     background: #ffddff;
     z-index: 200;
 }
@@ -111,7 +111,8 @@ main {
  */
 
 .hxl-cards {
-    position: relative;
+    overflow: auto;
+    padding: 1ex 1em;
 }
 
 .hxl-card {
@@ -128,10 +129,10 @@ main {
 }
 
 .hxl-card .cardnav {
-    margin-bottom: 4ex;
     display: flex;
-    width: 100%;
     justify-content: space-between;
+    padding: 0 1em;
+    margin: 0;
 }
 
 .hxl-card .cardnav a, hxl-card .cardnav span {
@@ -165,16 +166,12 @@ hxl-card .field:nth-child(odd) {
     margin-left: 1ex;
 }
 
-@media screen and (min-device-width: 80em) {
+@media screen and (min-device-width: 50em) {
     .hxl-card .field {
         padding: 1ex 0;
         margin: 0;
         clear: both;
         overflow: auto;
-    }
-
-    .hxl-card .field:nth-child(even) {
-        background-color: #ddffdd;
     }
 
     .hxl-card .label {
@@ -186,11 +183,13 @@ hxl-card .field:nth-child(odd) {
     .hxl-card .label .header {
         display: block;
         font-weight: bold;
+	text-align: right;
     }
 
     .hxl-card .label .hashtag {
         display: block;
         margin-left: 0;
+	text-align: right;
     }
 
     .hxl-card .value {
